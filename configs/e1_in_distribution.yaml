@@ -1,0 +1,53 @@
+experiment_name: "e1_in_distribution"
+seeds: [42, 43, 44, 45, 46]
+time_limit_sec: 10.0
+propagation_mode: "mac"
+verify_solutions: true
+
+dataset:
+  train_ratio: 0.70
+  val_ratio: 0.15
+  test_ratio: 0.15
+  instances:
+    sudoku_medium:
+      difficulty: "medium"
+      count: 24
+      start_seed: 1000
+    graph_coloring_medium:
+      num_vertices: 30
+      num_colors: 3
+      avg_degree: 4.4
+      count: 24
+      start_seed: 2000
+
+training:
+  oracle_type: "lookahead"
+  lookahead_depth: 1
+  max_states_per_instance: 20
+  top_k_oracle: 4
+  lgbm_n_estimators: 40
+  lgbm_max_depth: 4
+  mlp_epochs: 25
+  mlp_batch_size: 32
+
+evaluation:
+  baselines:
+    - "static"
+    - "random"
+    - "degree"
+    - "mrv"
+    - "mrv_degree"
+    - "dom_wdeg"
+  learned_models:
+    - name: "lgbm_full"
+      type: "lightgbm"
+      top_k: null
+    - name: "lgbm_top3"
+      type: "lightgbm"
+      top_k: 3
+    - name: "mlp_full"
+      type: "mlp"
+      top_k: null
+    - name: "mlp_top3"
+      type: "mlp"
+      top_k: 3

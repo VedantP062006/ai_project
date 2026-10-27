@@ -1,0 +1,59 @@
+experiment_name: "e2_difficulty_shift"
+seeds: [42, 43, 44, 45, 46]
+time_limit_sec: 10.0
+propagation_mode: "mac"
+verify_solutions: true
+
+dataset:
+  train_instances:
+    sudoku_easy:
+      difficulty: "easy"
+      count: 15
+      start_seed: 3000
+    sudoku_medium:
+      difficulty: "medium"
+      count: 15
+      start_seed: 4000
+  test_instances:
+    sudoku_hard:
+      difficulty: "hard"
+      count: 10
+      start_seed: 5000
+    published_hard:
+      - "ai_escargot"
+      - "golden_nugget"
+      - "easter_monster"
+
+training:
+  oracle_type: "lookahead"
+  lookahead_depth: 1
+  max_states_per_instance: 20
+  top_k_candidates: 3
+  dagger_iterations: 3
+  dagger_beta_decay: 0.5
+
+evaluation:
+  baselines:
+    - "static"
+    - "random"
+    - "degree"
+    - "mrv"
+    - "mrv_degree"
+    - "dom_wdeg"
+  models:
+    - name: "lgbm_supervised"
+      type: "lightgbm"
+      dagger: false
+      top_k: 3
+    - name: "lgbm_dagger"
+      type: "lightgbm"
+      dagger: true
+      top_k: 3
+    - name: "mlp_supervised"
+      type: "mlp"
+      dagger: false
+      top_k: 3
+    - name: "mlp_dagger"
+      type: "mlp"
+      dagger: true
+      top_k: 3

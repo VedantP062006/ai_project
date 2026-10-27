@@ -1,0 +1,92 @@
+[
+  {
+    "heuristic": "mrv_degree",
+    "mean_backtracks": 57.77,
+    "bt_95ci": "[57.77, 57.77]",
+    "par2_sec": 0.0224,
+    "wilcoxon_p_bt_vs_domwdeg": 0.9324,
+    "wilcoxon_p_time_vs_domwdeg": 0.0942,
+    "gap_closed_pct": 117.4
+  },
+  {
+    "heuristic": "mrv",
+    "mean_backtracks": 284.77,
+    "bt_95ci": "[284.77, 284.77]",
+    "par2_sec": 0.0654,
+    "wilcoxon_p_bt_vs_domwdeg": 0.3652,
+    "wilcoxon_p_time_vs_domwdeg": 0.1272,
+    "gap_closed_pct": 0.0
+  },
+  {
+    "heuristic": "dom_wdeg",
+    "mean_backtracks": 91.46,
+    "bt_95ci": "[91.46, 91.46]",
+    "par2_sec": 0.0826,
+    "wilcoxon_p_bt_vs_domwdeg": 1.0,
+    "wilcoxon_p_time_vs_domwdeg": 1.0,
+    "gap_closed_pct": 100.0
+  },
+  {
+    "heuristic": "lgbm_supervised",
+    "mean_backtracks": 62.23,
+    "bt_95ci": "[62.23, 62.23]",
+    "par2_sec": 0.1611,
+    "wilcoxon_p_bt_vs_domwdeg": 0.7483,
+    "wilcoxon_p_time_vs_domwdeg": 0.0479,
+    "gap_closed_pct": 115.1
+  },
+  {
+    "heuristic": "lgbm_dagger",
+    "mean_backtracks": 67.34,
+    "bt_95ci": "[61.14, 73.54]",
+    "par2_sec": 0.1773,
+    "wilcoxon_p_bt_vs_domwdeg": 0.5879,
+    "wilcoxon_p_time_vs_domwdeg": 0.0803,
+    "gap_closed_pct": 112.5
+  },
+  {
+    "heuristic": "mlp_dagger",
+    "mean_backtracks": 55.92,
+    "bt_95ci": "[38.43, 74.89]",
+    "par2_sec": 0.1799,
+    "wilcoxon_p_bt_vs_domwdeg": 0.8525,
+    "wilcoxon_p_time_vs_domwdeg": 0.0171,
+    "gap_closed_pct": 118.4
+  },
+  {
+    "heuristic": "mlp_supervised",
+    "mean_backtracks": 95.32,
+    "bt_95ci": "[68.94, 125.54]",
+    "par2_sec": 0.2525,
+    "wilcoxon_p_bt_vs_domwdeg": 0.3757,
+    "wilcoxon_p_time_vs_domwdeg": 0.0134,
+    "gap_closed_pct": 98.0
+  },
+  {
+    "heuristic": "random",
+    "mean_backtracks": 1419.69,
+    "bt_95ci": "[1419.69, 1419.69]",
+    "par2_sec": 0.3417,
+    "wilcoxon_p_bt_vs_domwdeg": 0.0002,
+    "wilcoxon_p_time_vs_domwdeg": 0.2163,
+    "gap_closed_pct": -587.1
+  },
+  {
+    "heuristic": "static",
+    "mean_backtracks": 1528.54,
+    "bt_95ci": "[1528.54, 1528.54]",
+    "par2_sec": 0.3461,
+    "wilcoxon_p_bt_vs_domwdeg": 0.4575,
+    "wilcoxon_p_time_vs_domwdeg": 0.3054,
+    "gap_closed_pct": -643.4
+  },
+  {
+    "heuristic": "degree",
+    "mean_backtracks": 7806.62,
+    "bt_95ci": "[7806.62, 7806.62]",
+    "par2_sec": 2.7099,
+    "wilcoxon_p_bt_vs_domwdeg": 0.0002,
+    "wilcoxon_p_time_vs_domwdeg": 0.0005,
+    "gap_closed_pct": -3891.1
+  }
+]

@@ -1,0 +1,102 @@
+[
+  {
+    "heuristic": "mrv",
+    "solve_rate_pct": 100.0,
+    "par2_sec": 0.0053,
+    "mean_wall_time_sec": 0.0053,
+    "mean_inference_sec": 0.0,
+    "mean_backtracks": 9.0,
+    "bt_95ci": "[9.00, 9.00]",
+    "wilcoxon_p_time_vs_domwdeg": 0.0
+  },
+  {
+    "heuristic": "mrv_degree",
+    "solve_rate_pct": 100.0,
+    "par2_sec": 0.0143,
+    "mean_wall_time_sec": 0.0143,
+    "mean_inference_sec": 0.0,
+    "mean_backtracks": 35.42,
+    "bt_95ci": "[35.42, 35.42]",
+    "wilcoxon_p_time_vs_domwdeg": 0.0053
+  },
+  {
+    "heuristic": "static",
+    "solve_rate_pct": 100.0,
+    "par2_sec": 0.0145,
+    "mean_wall_time_sec": 0.0145,
+    "mean_inference_sec": 0.0,
+    "mean_backtracks": 31.47,
+    "bt_95ci": "[31.47, 31.47]",
+    "wilcoxon_p_time_vs_domwdeg": 0.6794
+  },
+  {
+    "heuristic": "dom_wdeg",
+    "solve_rate_pct": 100.0,
+    "par2_sec": 0.0428,
+    "mean_wall_time_sec": 0.0428,
+    "mean_inference_sec": 0.0,
+    "mean_backtracks": 52.58,
+    "bt_95ci": "[52.58, 52.58]",
+    "wilcoxon_p_time_vs_domwdeg": 1.0
+  },
+  {
+    "heuristic": "mlp_dagger_top3",
+    "solve_rate_pct": 100.0,
+    "par2_sec": 0.0581,
+    "mean_wall_time_sec": 0.0581,
+    "mean_inference_sec": 0.0087,
+    "mean_backtracks": 10.35,
+    "bt_95ci": "[9.08, 11.45]",
+    "wilcoxon_p_time_vs_domwdeg": 0.0012
+  },
+  {
+    "heuristic": "lgbm_dagger_top3",
+    "solve_rate_pct": 100.0,
+    "par2_sec": 0.0602,
+    "mean_wall_time_sec": 0.0602,
+    "mean_inference_sec": 0.0161,
+    "mean_backtracks": 14.86,
+    "bt_95ci": "[12.68, 17.45]",
+    "wilcoxon_p_time_vs_domwdeg": 0.0012
+  },
+  {
+    "heuristic": "mlp_top3",
+    "solve_rate_pct": 100.0,
+    "par2_sec": 0.0671,
+    "mean_wall_time_sec": 0.0671,
+    "mean_inference_sec": 0.0092,
+    "mean_backtracks": 15.27,
+    "bt_95ci": "[10.36, 20.56]",
+    "wilcoxon_p_time_vs_domwdeg": 0.0012
+  },
+  {
+    "heuristic": "lgbm_top3",
+    "solve_rate_pct": 100.0,
+    "par2_sec": 0.081,
+    "mean_wall_time_sec": 0.081,
+    "mean_inference_sec": 0.0217,
+    "mean_backtracks": 24.33,
+    "bt_95ci": "[24.26, 24.37]",
+    "wilcoxon_p_time_vs_domwdeg": 0.0108
+  },
+  {
+    "heuristic": "random",
+    "solve_rate_pct": 94.7,
+    "par2_sec": 0.7018,
+    "mean_wall_time_sec": 0.439,
+    "mean_inference_sec": 0.0,
+    "mean_backtracks": 1812.05,
+    "bt_95ci": "[1812.05, 1812.05]",
+    "wilcoxon_p_time_vs_domwdeg": 0.5678
+  },
+  {
+    "heuristic": "degree",
+    "solve_rate_pct": 94.7,
+    "par2_sec": 1.0289,
+    "mean_wall_time_sec": 0.766,
+    "mean_inference_sec": 0.0,
+    "mean_backtracks": 2902.21,
+    "bt_95ci": "[2902.21, 2902.21]",
+    "wilcoxon_p_time_vs_domwdeg": 0.0446
+  }
+]

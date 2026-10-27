@@ -1,0 +1,66 @@
+experiment_name: "e5_time_limited"
+seeds: [42, 43, 44, 45, 46]
+time_limit_sec: 5.0
+propagation_mode: "mac"
+verify_solutions: true
+
+dataset:
+  instances:
+    sudoku_hard:
+      difficulty: "hard"
+      count: 8
+      start_seed: 6000
+    published_hard:
+      - "ai_escargot"
+      - "golden_nugget"
+      - "easter_monster"
+    graph_coloring_hard:
+      num_vertices: 40
+      num_colors: 3
+      avg_degree: 4.6
+      count: 8
+      start_seed: 7000
+
+training:
+  train_instances:
+    sudoku:
+      difficulty: "medium"
+      count: 15
+      start_seed: 8000
+    graph_coloring:
+      num_vertices: 25
+      num_colors: 3
+      avg_degree: 4.3
+      count: 15
+      start_seed: 9000
+  oracle_type: "lookahead"
+  lookahead_depth: 1
+  max_states_per_instance: 20
+  top_k_candidates: 3
+  dagger_iterations: 3
+
+evaluation:
+  baselines:
+    - "static"
+    - "random"
+    - "degree"
+    - "mrv"
+    - "mrv_degree"
+    - "dom_wdeg"
+  models:
+    - name: "lgbm_top3"
+      type: "lightgbm"
+      dagger: false
+      top_k: 3
+    - name: "lgbm_dagger_top3"
+      type: "lightgbm"
+      dagger: true
+      top_k: 3
+    - name: "mlp_top3"
+      type: "mlp"
+      dagger: false
+      top_k: 3
+    - name: "mlp_dagger_top3"
+      type: "mlp"
+      dagger: true
+      top_k: 3

@@ -1,0 +1,32 @@
+experiment_name: "e4_domain_transfer"
+seeds: [42, 43, 44, 45, 46]
+time_limit_sec: 10.0
+propagation_mode: "mac"
+verify_solutions: true
+
+dataset:
+  train_instances:
+    graph_coloring:
+      count: 20
+      start_seed: 9000
+      num_vertices: 30
+      num_colors: 3
+      avg_degree: 4.5
+  test_instances:
+    sudoku_transfer:
+      count: 8
+      start_seed: 9500
+    cryptarithmetic_transfer:
+      puzzles: ["send_more_money", "cross_roads_danger", "donald_gerald_robert", "base_ball_games"]
+
+training:
+  oracle_type: "lookahead"
+  max_states_per_instance: 20
+  lookahead_depth: 1
+  top_k_candidates: 3
+  epochs: 25
+  batch_size: 16
+
+evaluation:
+  baselines: ["mrv", "mrv_degree", "dom_wdeg", "random", "static"]
+  top_k_candidates: 3

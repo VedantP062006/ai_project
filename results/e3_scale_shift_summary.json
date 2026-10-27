@@ -1,0 +1,82 @@
+[
+  {
+    "heuristic": "mrv_degree",
+    "mean_backtracks": 3.5,
+    "bt_95ci": "[3.50, 3.50]",
+    "par2_sec": 0.0154,
+    "solve_rate_pct": 100.0,
+    "wilcoxon_p_bt_vs_domwdeg": 0.1797,
+    "wilcoxon_p_time_vs_domwdeg": 0.3804,
+    "gap_closed_pct": 81.7
+  },
+  {
+    "heuristic": "dom_wdeg",
+    "mean_backtracks": 1.83,
+    "bt_95ci": "[1.83, 1.83]",
+    "par2_sec": 0.0183,
+    "solve_rate_pct": 100.0,
+    "wilcoxon_p_bt_vs_domwdeg": 1.0,
+    "wilcoxon_p_time_vs_domwdeg": 1.0,
+    "gap_closed_pct": 100.0
+  },
+  {
+    "heuristic": "static",
+    "mean_backtracks": 48.42,
+    "bt_95ci": "[48.42, 48.42]",
+    "par2_sec": 0.0315,
+    "solve_rate_pct": 100.0,
+    "wilcoxon_p_bt_vs_domwdeg": 0.0215,
+    "wilcoxon_p_time_vs_domwdeg": 0.8501,
+    "gap_closed_pct": -412.8
+  },
+  {
+    "heuristic": "mrv",
+    "mean_backtracks": 10.92,
+    "bt_95ci": "[10.92, 10.92]",
+    "par2_sec": 0.0429,
+    "solve_rate_pct": 100.0,
+    "wilcoxon_p_bt_vs_domwdeg": 0.3164,
+    "wilcoxon_p_time_vs_domwdeg": 0.7334,
+    "gap_closed_pct": 0.0
+  },
+  {
+    "heuristic": "random",
+    "mean_backtracks": 109.92,
+    "bt_95ci": "[109.92, 109.92]",
+    "par2_sec": 0.0437,
+    "solve_rate_pct": 100.0,
+    "wilcoxon_p_bt_vs_domwdeg": 0.0264,
+    "wilcoxon_p_time_vs_domwdeg": 0.7334,
+    "gap_closed_pct": -1089.9
+  },
+  {
+    "heuristic": "lgbm_top3",
+    "mean_backtracks": 2.6,
+    "bt_95ci": "[2.58, 2.63]",
+    "par2_sec": 0.0876,
+    "solve_rate_pct": 100.0,
+    "wilcoxon_p_bt_vs_domwdeg": 0.4375,
+    "wilcoxon_p_time_vs_domwdeg": 0.0005,
+    "gap_closed_pct": 91.6
+  },
+  {
+    "heuristic": "mlp_top3",
+    "mean_backtracks": 7.1,
+    "bt_95ci": "[5.10, 9.80]",
+    "par2_sec": 0.1196,
+    "solve_rate_pct": 100.0,
+    "wilcoxon_p_bt_vs_domwdeg": 0.373,
+    "wilcoxon_p_time_vs_domwdeg": 0.0005,
+    "gap_closed_pct": 42.0
+  },
+  {
+    "heuristic": "gnn_top3",
+    "mean_backtracks": 13.35,
+    "bt_95ci": "[11.62, 14.53]",
+    "par2_sec": 0.6476,
+    "solve_rate_pct": 100.0,
+    "wilcoxon_p_bt_vs_domwdeg": 0.0645,
+    "wilcoxon_p_time_vs_domwdeg": 0.0005,
+    "gap_closed_pct": -26.8
+  }
+]

@@ -1,0 +1,40 @@
+experiment_name: "e3_scale_shift"
+seeds: [42, 43, 44, 45, 46]
+time_limit_sec: 15.0
+propagation_mode: "mac"
+verify_solutions: true
+
+dataset:
+  train_instances:
+    sudoku_9x9:
+      count: 12
+      start_seed: 7000
+    graph_coloring_v30:
+      count: 12
+      num_vertices: 30
+      num_colors: 3
+      avg_degree: 4.5
+      start_seed: 7500
+  test_instances:
+    hexadoku_16x16:
+      count: 4
+      clues: 128
+      start_seed: 8000
+    graph_coloring_v60:
+      count: 8
+      num_vertices: 60
+      num_colors: 3
+      avg_degree: 4.5
+      start_seed: 8500
+
+training:
+  oracle_type: "lookahead"
+  max_states_per_instance: 20
+  lookahead_depth: 1
+  top_k_candidates: 3
+  epochs: 25
+  batch_size: 16
+
+evaluation:
+  baselines: ["mrv", "mrv_degree", "dom_wdeg", "random", "static"]
+  top_k_candidates: 3

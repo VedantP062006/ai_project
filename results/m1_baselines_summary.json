@@ -1,0 +1,80 @@
+[
+  {
+    "heuristic": "mrv_degree",
+    "instances": 25,
+    "solved": 25,
+    "solve_rate_pct": 100.0,
+    "mean_nodes": 10.8,
+    "median_nodes": 11.0,
+    "mean_backtracks": 2.6,
+    "median_backtracks": 0.0,
+    "mean_wall_time_sec": 0.0207,
+    "median_wall_time_sec": 0.0158,
+    "par2_sec": 0.0207
+  },
+  {
+    "heuristic": "dom_wdeg",
+    "instances": 25,
+    "solved": 25,
+    "solve_rate_pct": 100.0,
+    "mean_nodes": 8.64,
+    "median_nodes": 9.0,
+    "mean_backtracks": 0.52,
+    "median_backtracks": 0.0,
+    "mean_wall_time_sec": 0.0216,
+    "median_wall_time_sec": 0.0154,
+    "par2_sec": 0.0216
+  },
+  {
+    "heuristic": "mrv",
+    "instances": 25,
+    "solved": 25,
+    "solve_rate_pct": 100.0,
+    "mean_nodes": 10.88,
+    "median_nodes": 11.0,
+    "mean_backtracks": 2.6,
+    "median_backtracks": 0.0,
+    "mean_wall_time_sec": 0.0239,
+    "median_wall_time_sec": 0.0159,
+    "par2_sec": 0.0239
+  },
+  {
+    "heuristic": "random",
+    "instances": 25,
+    "solved": 25,
+    "solve_rate_pct": 100.0,
+    "mean_nodes": 15.44,
+    "median_nodes": 12.0,
+    "mean_backtracks": 20.08,
+    "median_backtracks": 1.0,
+    "mean_wall_time_sec": 0.0321,
+    "median_wall_time_sec": 0.0135,
+    "par2_sec": 0.0321
+  },
+  {
+    "heuristic": "static",
+    "instances": 25,
+    "solved": 25,
+    "solve_rate_pct": 100.0,
+    "mean_nodes": 12.72,
+    "median_nodes": 12.0,
+    "mean_backtracks": 8.68,
+    "median_backtracks": 2.0,
+    "mean_wall_time_sec": 0.0351,
+    "median_wall_time_sec": 0.0157,
+    "par2_sec": 0.0351
+  },
+  {
+    "heuristic": "degree",
+    "instances": 25,
+    "solved": 25,
+    "solve_rate_pct": 100.0,
+    "mean_nodes": 20.36,
+    "median_nodes": 13.0,
+    "mean_backtracks": 40.16,
+    "median_backtracks": 3.0,
+    "mean_wall_time_sec": 0.0528,
+    "median_wall_time_sec": 0.0115,
+    "par2_sec": 0.0528
+  }
+]

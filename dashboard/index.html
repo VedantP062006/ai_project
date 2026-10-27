@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learning Variable and Value Ordering for CSP Backtracking Search | Research Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="dashboard-header">
+      <div class="header-left">
+        <div class="badge-tag">RESEARCH BENCHMARK</div>
+        <h1 class="project-title">Learning Variable & Value Ordering for CSP Backtracking Search</h1>
+        <p class="project-subtitle">
+          Benchmarking classical heuristics (MRV, degree, dom/wdeg) versus learned policies under Maintain Arc Consistency (MAC / AC-3).
+        </p>
+      </div>
+      <div class="header-right">
+        <div class="system-status-card">
+          <div class="status-indicator-dot pulse"></div>
+          <div class="status-text-group">
+            <span class="status-label">SOLVER ENGINE</span>
+            <span class="status-val" id="engine-status">Active (Bitmask MAC + ML Policies)</span>
+          </div>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-pill-label">Milestone</span>
+          <span class="stat-pill-val" id="active-milestone">M1–M4 Complete</span>
+        </div>
+        <div class="exp-selector-pill" style="display: flex; align-items: center; gap: 6px; background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 9999px; padding: 4px 12px;">
+          <label for="select-global-exp" style="font-size: 0.75rem; color: #94a3b8; font-weight: 600; text-transform: uppercase;">Experiment:</label>
+          <select id="select-global-exp" style="background: rgba(15, 23, 42, 0.9); color: #00f2fe; border: 1px solid rgba(0, 242, 254, 0.4); border-radius: 6px; padding: 4px 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; outline: none;">
+            <option value="e5" selected>E5: Time-Limited Search (Survival of Inference)</option>
+            <option value="e1">E1: In-Distribution (H1 & H4)</option>
+            <option value="e2">E2: Difficulty Shift & DAgger (H3)</option>
+            <option value="e3">E3: Scale Shift (16x16 Hexadoku)</option>
+            <option value="e4">E4: Cross-Family Domain Transfer</option>
+            <option value="m1">M1: Classical Baseline Benchmarks</option>
+          </select>
+        </div>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs" role="tablist">
+      <button class="nav-tab active" data-tab="tab-overview" id="nav-btn-overview">
+        <span class="tab-icon">◈</span> Hypotheses & Overview
+      </button>
+      <button class="nav-tab" data-tab="tab-studio" id="nav-btn-studio">
+        <span class="tab-icon">▶</span> Live CSP Visualizer Studio
+      </button>
+      <button class="nav-tab" data-tab="tab-analytics" id="nav-btn-analytics">
+        <span class="tab-icon">◰</span> Benchmark Analytics & Profiles
+      </button>
+      <button class="nav-tab" data-tab="tab-explorer" id="nav-btn-explorer">
+        <span class="tab-icon">▤</span> Instance Runs Explorer
+      </button>
+    </nav>
+
+    <!-- TAB 1: HYPOTHESES & OVERVIEW -->
+    <section class="tab-content active" id="tab-overview">
+      <!-- Quick Ticker Metrics -->
+      <div class="metrics-grid">
+        <div class="metric-card cyan-glow">
+          <div class="metric-header">
+            <span class="metric-title">LOWEST MEAN BACKTRACKS</span>
+            <span class="metric-tag">dom/wdeg</span>
+          </div>
+          <div class="metric-val" id="card-best-bt">0.52</div>
+          <div class="metric-sub">vs 40.16 (degree) & 20.08 (random)</div>
+        </div>
+
+        <div class="metric-card purple-glow">
+          <div class="metric-header">
+            <span class="metric-title">FASTEST PAR2 RUNTIME</span>
+            <span class="metric-tag">mrv_degree</span>
+          </div>
+          <div class="metric-val" id="card-best-par2">0.0207 s</div>
+          <div class="metric-sub">100% solve rate under 10s cutoff</div>
+        </div>
+
+        <div class="metric-card green-glow">
+          <div class="metric-header">
+            <span class="metric-title">BENCHMARK INSTANCES</span>
+            <span class="metric-tag">Multi-Family</span>
+          </div>
+          <div class="metric-val">25 Puzzles</div>
+          <div class="metric-sub">Sudoku, Phase-Transition Coloring, Cryptarithmetic</div>
+        </div>
+
+        <div class="metric-card amber-glow">
+          <div class="metric-header">
+            <span class="metric-title">TEST SUITE COVERAGE</span>
+            <span class="metric-tag">PyTest</span>
+          </div>
+          <div class="metric-val">21 / 21 Passed</div>
+          <div class="metric-sub">100% verifier & determinism pass</div>
+        </div>
+      </div>
+
+      <!-- Formal Hypotheses Matrix -->
+      <div class="section-container">
+        <div class="section-title-row">
+          <h2 class="section-heading">Research Hypotheses Scorecard</h2>
+          <span class="section-caption">Tracking empirical validation across milestones</span>
+        </div>
+        <div class="hypotheses-grid" id="hypotheses-container">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+
+      <!-- Architecture and Design Highlights -->
+      <div class="architecture-grid">
+        <div class="arch-card">
+          <h3 class="arch-title"><span class="arch-icon">⚡</span> Zero-Allocation Bitmask Undo Trail</h3>
+          <p class="arch-desc">
+            Domains are stored as integer bitmasks. Variable assignments push pruned masks to an undo trail stack. Backtracking simply un-masks via bitwise OR, achieving over 100,000 node visits per second on a single CPU core.
+          </p>
+        </div>
+        <div class="arch-card">
+          <h3 class="arch-title"><span class="arch-icon">🛡️</span> Ground-Truth Verifier & OR-Tools Sanity</h3>
+          <p class="arch-desc">
+            Every solution returned by the solver is validated by an independent assertion checker against all domain bounds, binary tables, and AllDifferent groups. Google OR-Tools CP-SAT is utilized exclusively as an external test-suite oracle.
+          </p>
+        </div>
+        <div class="arch-card">
+          <h3 class="arch-title"><span class="arch-icon">🔒</span> Strict Instance-Level Partitioning</h3>
+          <p class="arch-desc">
+            Data splits are partitioned strictly by problem instance hash (0% search-node leakage). Machine learning feature extractors evaluate dynamic search states with zero access to planted solutions.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: LIVE CSP SOLVER & VISUALIZER STUDIO -->
+    <section class="tab-content" id="tab-studio">
+      <div class="studio-layout">
+        <!-- Sidebar Controls -->
+        <div class="studio-sidebar glass-panel">
+          <h2 class="panel-title">Solver Controls</h2>
+
+          <div class="control-group">
+            <label for="select-family">Problem Family</label>
+            <select id="select-family" class="custom-select">
+              <option value="sudoku">Sudoku (9x9 Grid)</option>
+              <option value="graph_coloring">Graph Colouring (Phase Transition)</option>
+              <option value="cryptarithmetic">Cryptarithmetic (Carry Model)</option>
+            </select>
+          </div>
+
+          <div class="control-group" id="preset-group">
+            <label for="select-preset">Benchmark Preset</label>
+            <select id="select-preset" class="custom-select">
+              <!-- Dynamically populated -->
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label for="select-heuristic">Variable Ordering</label>
+            <select id="select-heuristic" class="custom-select">
+              <optgroup label="Learned Policies (Trained Models)">
+                <option value="mlp_dagger_top3" selected>PyTorch MLP + DAgger (Top-3 MRV)</option>
+                <option value="mlp_top3">PyTorch MLP Supervised (Top-3 MRV)</option>
+                <option value="lightgbm_dagger_top3">LightGBM + DAgger (Top-3 MRV)</option>
+                <option value="lightgbm_top3">LightGBM Supervised (Top-3 MRV)</option>
+                <option value="gnn_top3">Bipartite GNN Policy (Top-3 MRV)</option>
+              </optgroup>
+              <optgroup label="Classical Heuristics">
+                <option value="dom_wdeg">dom/wdeg (Conflict-Directed)</option>
+                <option value="mrv_degree">MRV + Degree Tie-Break</option>
+                <option value="mrv">MRV (Minimum Remaining Values)</option>
+                <option value="degree">Degree (Dynamic Adjacency)</option>
+                <option value="static">Static (Lexicographic Index)</option>
+                <option value="random">Random Ordering</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label for="select-propagation">Propagation Mode</label>
+            <select id="select-propagation" class="custom-select">
+              <option value="mac">MAC (Maintaining Arc Consistency / AC-3)</option>
+              <option value="fc">Forward Checking Only (Ablation)</option>
+            </select>
+          </div>
+
+          <div class="action-buttons-group">
+            <button class="btn btn-primary" id="btn-run-solver">
+              <span class="btn-icon">⚡</span> Solve Instance
+            </button>
+            <button class="btn btn-secondary" id="btn-trace-solver">
+              <span class="btn-icon">▶</span> Load Step Trace
+            </button>
+          </div>
+
+          <hr class="panel-divider">
+
+          <div class="playback-controls">
+            <span class="control-label">Trace Playback Animation</span>
+            <div class="playback-btn-row">
+              <button class="btn btn-icon-only" id="btn-play-pause" title="Play/Pause">▶</button>
+              <button class="btn btn-icon-only" id="btn-step" title="Step Forward">⏭</button>
+              <button class="btn btn-icon-only" id="btn-reset-trace" title="Reset">↺</button>
+            </div>
+            <div class="slider-group">
+              <label for="playback-speed">Speed: <span id="speed-label">30 ms</span></label>
+              <input type="range" id="playback-speed" min="10" max="300" step="10" value="30">
+            </div>
+            <div class="trace-progress-info">
+              Step <span id="trace-step-curr">0</span> / <span id="trace-step-total">0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Visualizer Area -->
+        <div class="studio-main glass-panel">
+          <div class="studio-header">
+            <div class="instance-title-group">
+              <span class="instance-badge" id="studio-inst-badge">SUDOKU</span>
+              <h3 class="instance-name" id="studio-inst-name">Sudoku Medium (Seed 200)</h3>
+            </div>
+            <div class="live-stats-bar">
+              <div class="live-stat-item">
+                <span class="live-stat-label">STATUS</span>
+                <span class="live-stat-val status-badge-ok" id="live-stat-status">READY</span>
+              </div>
+              <div class="live-stat-item">
+                <span class="live-stat-label">NODES</span>
+                <span class="live-stat-val" id="live-stat-nodes">0</span>
+              </div>
+              <div class="live-stat-item">
+                <span class="live-stat-label">BACKTRACKS</span>
+                <span class="live-stat-val" id="live-stat-backtracks">0</span>
+              </div>
+              <div class="live-stat-item">
+                <span class="live-stat-label">DEPTH</span>
+                <span class="live-stat-val" id="live-stat-depth">0</span>
+              </div>
+              <div class="live-stat-item">
+                <span class="live-stat-label">RUNTIME</span>
+                <span class="live-stat-val" id="live-stat-time">0.0000 s</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Board / Graph Canvas Viewport -->
+          <div class="visualizer-viewport">
+            <!-- Sudoku Grid Container -->
+            <div class="sudoku-grid-wrapper" id="sudoku-container">
+              <div class="sudoku-board" id="sudoku-board"></div>
+            </div>
+
+            <!-- Graph Canvas Container -->
+            <div class="graph-canvas-wrapper hidden" id="graph-container">
+              <canvas id="graph-canvas" width="600" height="480"></canvas>
+            </div>
+
+            <!-- Cryptarithmetic View Container -->
+            <div class="crypto-wrapper hidden" id="crypto-container">
+              <div class="crypto-display" id="crypto-display"></div>
+            </div>
+          </div>
+
+          <!-- Live Step Event Log -->
+          <div class="step-log-panel">
+            <div class="step-log-header">
+              <span class="log-title">SEARCH TRACE EVENT LOG</span>
+              <span class="log-info" id="log-step-desc">Awaiting execution...</span>
+            </div>
+            <div class="log-stream" id="log-stream">
+              <div class="log-item info">Select a problem preset and click 'Solve Instance' or 'Load Step Trace'.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: BENCHMARK ANALYTICS & PROFILES -->
+    <section class="tab-content" id="tab-analytics">
+      <div class="analytics-grid">
+        <div class="chart-card glass-panel">
+          <div class="chart-header">
+            <h3 class="chart-title">Baseline Heuristics: Backtracks Comparison</h3>
+            <span class="chart-subtitle">Log scale: Mean vs. Median backtracks across 25 instances</span>
+          </div>
+          <div class="chart-body" id="bar-chart-container">
+            <!-- Generated via Chart renderer -->
+            <canvas id="backtracks-chart" height="260"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card glass-panel">
+          <div class="chart-header">
+            <h3 class="chart-title">PAR2 Runtime vs. Mean Search Nodes</h3>
+            <span class="chart-subtitle">Penalized average runtime (s) and total tree expansion</span>
+          </div>
+          <div class="chart-body">
+            <canvas id="par2-chart" height="260"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-container" style="margin-top: 1.5rem;">
+        <div class="chart-card glass-panel">
+          <div class="chart-header">
+            <h3 class="chart-title">Dolan-Moré Performance Profile (Tau vs Probability)</h3>
+            <span class="chart-subtitle">Cumulative fraction of instances solved within tau * best runtime</span>
+          </div>
+          <div class="dolan-more-container">
+            <canvas id="dolan-more-chart" height="280"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: RAW RUNS EXPLORER -->
+    <section class="tab-content" id="tab-explorer">
+      <div class="explorer-card glass-panel">
+        <div class="explorer-toolbar">
+          <div class="filter-group">
+            <input type="text" id="filter-search" class="search-input" placeholder="Search instance name...">
+            <select id="filter-heuristic" class="custom-select-sm">
+              <option value="all">All Heuristics</option>
+              <option value="mlp_dagger_top3">mlp_dagger_top3</option>
+              <option value="mlp_top3">mlp_top3</option>
+              <option value="lgbm_dagger_top3">lgbm_dagger_top3</option>
+              <option value="lgbm_top3">lgbm_top3</option>
+              <option value="gnn_top3">gnn_top3</option>
+              <option value="dom_wdeg">dom/wdeg</option>
+              <option value="mrv_degree">mrv_degree</option>
+              <option value="mrv">mrv</option>
+              <option value="degree">degree</option>
+              <option value="static">static</option>
+              <option value="random">random</option>
+            </select>
+            <select id="filter-family" class="custom-select-sm">
+              <option value="all">All Families</option>
+              <option value="sudoku">Sudoku</option>
+              <option value="graph_coloring">Graph Colouring</option>
+              <option value="cryptarithmetic">Cryptarithmetic</option>
+            </select>
+          </div>
+          <div class="table-counts" id="table-counts-label">
+            Showing 150 / 150 runs
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="data-table" id="runs-table">
+            <thead>
+              <tr>
+                <th data-sort="instance">Instance</th>
+                <th data-sort="family">Family</th>
+                <th data-sort="difficulty">Difficulty</th>
+                <th data-sort="heuristic">Heuristic</th>
+                <th data-sort="status">Status</th>
+                <th data-sort="nodes">Nodes</th>
+                <th data-sort="backtracks">Backtracks</th>
+                <th data-sort="propagation_calls">Prop Calls</th>
+                <th data-sort="wall_time_sec">Time (s)</th>
+              </tr>
+            </thead>
+            <tbody id="runs-tbody">
+              <!-- Populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="chart.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

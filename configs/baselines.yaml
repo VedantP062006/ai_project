@@ -1,0 +1,51 @@
+experiment_name: "m1_baselines"
+seed: 42
+time_limit_sec: 10.0
+propagation_mode: "mac"
+verify_solutions: true
+
+instances:
+  sudoku_easy:
+    type: "sudoku"
+    difficulty: "easy"
+    count: 5
+    start_seed: 100
+  sudoku_medium:
+    type: "sudoku"
+    difficulty: "medium"
+    count: 5
+    start_seed: 200
+  sudoku_hard:
+    type: "sudoku"
+    difficulty: "hard"
+    count: 3
+    start_seed: 300
+  graph_coloring_small:
+    type: "graph_coloring"
+    num_vertices: 25
+    num_colors: 3
+    avg_degree: 4.2
+    count: 5
+    start_seed: 400
+  graph_coloring_medium:
+    type: "graph_coloring"
+    num_vertices: 35
+    num_colors: 3
+    avg_degree: 4.5
+    count: 5
+    start_seed: 500
+  cryptarithmetic:
+    type: "cryptarithmetic"
+    puzzles:
+      - "send_more_money"
+      - "cross_roads_danger"
+
+heuristics:
+  - "static"
+  - "random"
+  - "mrv"
+  - "degree"
+  - "mrv_degree"
+  - "dom_wdeg"
+
+value_heuristic: "natural"
